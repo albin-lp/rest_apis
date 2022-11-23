@@ -1,10 +1,18 @@
 from django.shortcuts import render
-from api.serializers import ProjectSerializer
+from api.serializers import ProjectSerializer,UserSerializer
 from api.models import Project
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 # Create your views here.
+class Signup(ViewSet):
+    def create(self,request,*args,**kwargs):
+        serializer=UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data)
+        else:
+            return Response(data=serializer.errors)
 
 class ProjectView(ViewSet):
     def create(self, request, *args, **kwargs):

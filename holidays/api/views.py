@@ -1,11 +1,19 @@
 from django.shortcuts import render
-from api.serializer import HolidaySerializer
+from api.serializer import HolidaySerializer,UserSerializer
 from api.models import Holiday
 from api.serializer import Holiday
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 # Create your views here.
+class Signup(ViewSet):
+    def create(self,request,*args,**kwargs):
+        serializer=UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data)
+        else:
+            return Response(data=serializer.errors)
 
 class HolidayView(ViewSet):
     def create(self, request, *args, **kwargs):
@@ -15,6 +23,7 @@ class HolidayView(ViewSet):
             return Response(data=serializer.data)
         else:
             return Response(data=serializer.errors)
+
     #
     def list(self, request, *args, **kwargs):
         holi = Holiday.objects.all()

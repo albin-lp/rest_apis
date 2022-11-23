@@ -1,10 +1,18 @@
 from django.shortcuts import render
 from api.models import Client
-from api.serializers import ClientSerializer
+from api.serializers import ClientSerializer,UserSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 # Create your views here.
+class Signup(ViewSet):
+    def create(self,request,*args,**kwargs):
+        serializer=UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data)
+        else:
+            return Response(data=serializer.errors)
 
 class ClientView(ViewSet):
     def create(self, request, *args, **kwargs):
