@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from api.models import Client
-from api.serializers import ClientSerializer,UserSerializer
+from project.serializers import ProjectSerializer,UserSerializer
+from project.models import Project
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -14,9 +14,9 @@ class Signup(ViewSet):
         else:
             return Response(data=serializer.errors)
 
-class ClientView(ViewSet):
+class ProjectView(ViewSet):
     def create(self, request, *args, **kwargs):
-        serializer = ClientSerializer(data=request.data)
+        serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
@@ -24,20 +24,20 @@ class ClientView(ViewSet):
             return Response(data=serializer.errors)
 
     def list(self, request, *args, **kwargs):
-        cli = Client.objects.all()
-        serializer = ClientSerializer(cli, many=True)
+        prjt = Project.objects.all()
+        serializer = ProjectSerializer(prjt, many=True)
         return Response(data=serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        cli = Client.objects.get(id=id)
-        serializer = ClientSerializer(cli, many=False)
+        prjt = Project.objects.get(id=id)
+        serializer = ProjectSerializer(prjt, many=False)
         return Response(data=serializer.data)
 
     def update(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        instance = Client.objects.get(id=id)
-        serializer = ClientSerializer(instance=instance, data=request.data)
+        instance = Project.objects.get(id=id)
+        serializer = ProjectSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
@@ -46,8 +46,7 @@ class ClientView(ViewSet):
 
     def destroy(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        cli = Client.objects.get(id=id)
-        cli.delete()
-        return Response({"msg": "clienty deleted"})
-
+        prjt = Project.objects.get(id=id)
+        prjt.delete()
+        return Response({"msg": "project deleted"})
 # Create your views here.

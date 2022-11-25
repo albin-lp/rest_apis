@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from api.models import Client
-from api.serializers import ClientSerializer,UserSerializer
+from employ.models import Employe
+from employ.serializers import EmployeSerializer,UserSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -14,9 +14,9 @@ class Signup(ViewSet):
         else:
             return Response(data=serializer.errors)
 
-class ClientView(ViewSet):
+class EmployeView(ViewSet):
     def create(self, request, *args, **kwargs):
-        serializer = ClientSerializer(data=request.data)
+        serializer = EmployeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
@@ -24,20 +24,20 @@ class ClientView(ViewSet):
             return Response(data=serializer.errors)
 
     def list(self, request, *args, **kwargs):
-        cli = Client.objects.all()
-        serializer = ClientSerializer(cli, many=True)
+        emp = Employe.objects.all()
+        serializer = EmployeSerializer(emp, many=True)
         return Response(data=serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        cli = Client.objects.get(id=id)
-        serializer = ClientSerializer(cli, many=False)
+        emp = Employe.objects.get(id=id)
+        serializer = EmployeSerializer(emp, many=False)
         return Response(data=serializer.data)
 
     def update(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        instance = Client.objects.get(id=id)
-        serializer = ClientSerializer(instance=instance, data=request.data)
+        instance = Employe.objects.get(id=id)
+        serializer = EmployeSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
@@ -46,8 +46,7 @@ class ClientView(ViewSet):
 
     def destroy(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        cli = Client.objects.get(id=id)
-        cli.delete()
-        return Response({"msg": "clienty deleted"})
-
+        emp = Employe.objects.get(id=id)
+        emp.delete()
+        return Response({"msg": "employe deleted"})
 # Create your views here.

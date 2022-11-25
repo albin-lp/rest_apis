@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7**3ea9=#7oz@^^2b5#z1cmh%4+lo#5&6k#jp!$@vmrt11@&pf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io']
 
 
 # Application definition
@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'employ',
+    'holidays',
+    'leave',
+    'project',
     'rest_framework',
     'rest_framework.authtoken',
 ]

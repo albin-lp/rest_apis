@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from api.models import Client
-from api.serializers import ClientSerializer,UserSerializer
+from holidays.serializer import HolidaySerializer,UserSerializer
+from holidays.models import Holiday
+from holidays.serializer import Holiday
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -14,30 +15,31 @@ class Signup(ViewSet):
         else:
             return Response(data=serializer.errors)
 
-class ClientView(ViewSet):
+class HolidayView(ViewSet):
     def create(self, request, *args, **kwargs):
-        serializer = ClientSerializer(data=request.data)
+        serializer = HolidaySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
         else:
             return Response(data=serializer.errors)
 
+    #
     def list(self, request, *args, **kwargs):
-        cli = Client.objects.all()
-        serializer = ClientSerializer(cli, many=True)
+        holi = Holiday.objects.all()
+        serializer = HolidaySerializer(holi, many=True)
         return Response(data=serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        cli = Client.objects.get(id=id)
-        serializer = ClientSerializer(cli, many=False)
+        holi = Holiday.objects.get(id=id)
+        serializer = HolidaySerializer(lev, many=False)
         return Response(data=serializer.data)
 
     def update(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        instance = Client.objects.get(id=id)
-        serializer = ClientSerializer(instance=instance, data=request.data)
+        instance = Holiday.objects.get(id=id)
+        serializer = HolidaySerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
@@ -46,8 +48,9 @@ class ClientView(ViewSet):
 
     def destroy(self, request, *args, **kwargs):
         id = kwargs.get("pk")
-        cli = Client.objects.get(id=id)
-        cli.delete()
-        return Response({"msg": "clienty deleted"})
+        holi = Holiday.objects.get(id=id)
+        holi.delete()
+        return Response({"msg": "holiday deleted"})
+# Create your views here.
 
 # Create your views here.
